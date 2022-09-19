@@ -1,7 +1,7 @@
 package main
 
 import (
-	l "how_to_zap/pkg/logger"
+	l "how_to_zap/pkg/logger/applogger"
 
 	"go.uber.org/zap"
 )

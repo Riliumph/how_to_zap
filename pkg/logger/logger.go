@@ -2,6 +2,7 @@ package logger
 
 import (
 	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 )
 
 type Logger struct {
@@ -11,13 +12,32 @@ type Logger struct {
 }
 
 const (
-	keyTime   = "time" // Match fluentd/fluentbit
-	keyLevel  = "level"
-	keyName   = "name"
-	keyCaller = "caller"
-	keyMsg    = "msg"
-	keyTrace  = "stack"
+	KeyTime   = "time" // Match fluentd/fluentbit
+	KeyLevel  = "level"
+	KeyName   = "name"
+	KeyCaller = "caller"
+	KeyMsg    = "msg"
+	KeyTrace  = "stack"
 )
+
+var (
+	LevelMap = map[string]zapcore.Level{
+		"debug": zap.DebugLevel,
+		"info":  zap.InfoLevel,
+		"warn":  zap.WarnLevel,
+		"error": zap.ErrorLevel,
+		"fatal": zap.FatalLevel,
+		"panic": zap.PanicLevel,
+	}
+)
+
+func New(logger *zap.Logger, config zap.Config, options []zap.Option) *Logger {
+	return &Logger{
+		logger:  logger,
+		config:  config,
+		options: options,
+	}
+}
 
 // With Add item
 func (l *Logger) With(fields ...zap.Field) {
